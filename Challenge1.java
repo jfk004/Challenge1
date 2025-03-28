@@ -72,6 +72,7 @@ public class Challenge1 {
         // Store available items and cart
         List<Item> itemsForSale = new ArrayList<>();
         List<Item> cart = new ArrayList<>();
+        List<Item> userItemsForSale = new ArrayList<>();
 
         // Sample items
         itemsForSale.add(new Item("MacBookPro", "Electronics", "Zakaaria", "Paul", "zakaaria.paul@qu.edu", 2500.00));
@@ -88,7 +89,9 @@ public class Challenge1 {
             System.out.println("\nMain Menu:");
             System.out.println("1. Buy");
             System.out.println("2. Cart");
-            System.out.println("3. Exit");
+            System.out.println("3. Sell");
+            System.out.println("4. Exit");
+
             System.out.print("Choose an option: ");
 
             int choice = userInput.nextInt();
@@ -157,8 +160,66 @@ public class Challenge1 {
                         }
                     }
                     break;
-
                 case 3:
+                    boolean sellMenu = true;
+                    while (sellMenu) {
+                        System.out.println("\nSell Menu:");
+                        System.out.println("1. View My Items for Sale");
+                        System.out.println("2. Add New Item for Sale");
+                        System.out.println("3. Back to Main Menu");
+                        System.out.print("Choose an option: ");
+
+                        int sellChoice = userInput.nextInt();
+                        userInput.nextLine();
+
+                        switch (sellChoice) {
+                            case 1:
+                                if (userItemsForSale.isEmpty()) {
+                                    System.out.println("You have no items listed for sale.");
+                                } else {
+                                    System.out.println("Your Items for Sale:");
+                                    for (Item item : userItemsForSale) {
+                                        System.out.println(item);
+                                    }
+                                }
+                                break;
+                            case 2:
+                                System.out.print("Enter item name: ");
+                                String itemName = userInput.nextLine();
+                                
+                                System.out.print("Enter category: ");
+                                String itemCategory = userInput.nextLine();
+                                
+                                System.out.print("Enter price: ");
+                                double itemPrice = userInput.nextDouble();
+                                userInput.nextLine();
+
+                                System.out.print("Enter first Name: ");
+                                String itemFirstName = userInput.nextLine();
+
+                                System.out.print("Enter Last Name: ");
+                                String itemLastName = userInput.nextLine();
+
+                                System.out.print("Enter email: ");
+                                String itemEmail = userInput.nextLine();
+                                
+                                Item newItem = new Item(itemName, itemCategory, itemFirstName, itemLastName, itemEmail, itemPrice);
+                                userItemsForSale.add(newItem);
+                                itemsForSale.add(newItem);
+                                
+                                System.out.println("Item successfully added for sale!");
+                                break;
+                            case 3:
+                                sellMenu = false;
+                                break;
+                            default:
+                                System.out.println("Invalid choice. Please try again.");
+                        }
+
+                    }
+                    break;
+
+                case 4:
                     System.out.println("Exiting program.");
                     running = false;
                     break;
