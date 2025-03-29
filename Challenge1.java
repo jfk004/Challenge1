@@ -46,7 +46,8 @@ public class Challenge1 {
         boolean isAuthenticated = false;
 
         System.out.println("\nGuest login:\nUsername: guest\nPassword: QUguest");
-        System.out.println("\nPlease log in using your QU credentials. If you cannot log in, please use the guest login.");
+        System.out.println(
+                "\nPlease log in using your QU credentials. If you cannot log in, please use the guest login.");
 
         while (!isAuthenticated) {
             System.out.print("Please enter your username: ");
@@ -139,24 +140,45 @@ public class Challenge1 {
                 case 2:
                     boolean inCartMenu = true;
                     while (inCartMenu) {
-                        System.out.println("\nYour Cart:");
+                        System.out.println("\nCart:");
                         if (cart.isEmpty()) {
                             System.out.println("Your cart is empty.");
                         } else {
+                            double totalPrice = 0.0;
                             for (Item item : cart) {
-                                System.out.println(item);
+                                System.out.println(item.name + " $ " + item.price);
+                                totalPrice += item.price;
                             }
+                            System.out.println("\n Total Price: $ " + totalPrice);
                         }
-                        System.out.println("\n1. Back to Main Menu");
+                        System.out.println("\n1. Checkout");
+                        System.out.println("2. Back to Main Menu");
                         System.out.print("Choose an option: ");
 
                         int cartChoice = userInput.nextInt();
                         userInput.nextLine();
 
-                        if (cartChoice == 1) {
-                            inCartMenu = false; // Exit Cart menu
-                        } else {
-                            System.out.println("Invalid choice. Returning to cart menu...");
+                        switch (cartChoice) {
+                            case 1:
+                                if (!cart.isEmpty()) {
+
+                                    // Remove purchased items from the buy menu
+                                    for (Item purchasedItem : cart) {
+                                        itemsForSale.remove(purchasedItem);
+
+                                    }
+
+                                    cart.clear();
+                                    System.out.println("Thank you for your purchase.");
+                                }
+                                break;
+
+                            case 2:
+                                inCartMenu = false; // Exit the cart menu
+                                break;
+
+                            default:
+                                System.out.println("Invalid choice. Please try again.");
                         }
                     }
                     break;
@@ -186,10 +208,10 @@ public class Challenge1 {
                             case 2:
                                 System.out.print("Enter item name: ");
                                 String itemName = userInput.nextLine();
-                                
+
                                 System.out.print("Enter category: ");
                                 String itemCategory = userInput.nextLine();
-                                
+
                                 System.out.print("Enter price: ");
                                 double itemPrice = userInput.nextDouble();
                                 userInput.nextLine();
@@ -202,11 +224,12 @@ public class Challenge1 {
 
                                 System.out.print("Enter email: ");
                                 String itemEmail = userInput.nextLine();
-                                
-                                Item newItem = new Item(itemName, itemCategory, itemFirstName, itemLastName, itemEmail, itemPrice);
+
+                                Item newItem = new Item(itemName, itemCategory, itemFirstName, itemLastName, itemEmail,
+                                        itemPrice);
                                 userItemsForSale.add(newItem);
                                 itemsForSale.add(newItem);
-                                
+
                                 System.out.println("Item successfully added for sale!");
                                 break;
                             case 3:
