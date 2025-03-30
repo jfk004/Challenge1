@@ -2,6 +2,7 @@ import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.HashMap;
+import java.util.InputMismatchException;
 
 public class Challenge1 {
 
@@ -24,7 +25,7 @@ public class Challenge1 {
 
         @Override
         public String toString() {
-            return name + "- $" + price;
+            return name + " - $" + price;
         }
 
         public String getDetails() {
@@ -45,6 +46,15 @@ public class Challenge1 {
         int accountLoginFail = 0;
         boolean isAuthenticated = false;
 
+        System.out.println("\r\n" + //
+                        "              U _____ u    _         ____     U  ___ u   __  __   U _____ u       _____      U  ___ u        ___       ____       _        __   __   _    \r\n" + //
+                        " __        __ \\| ___\"|/   |\"|     U /\"___|     \\/\"_ \\/ U|' \\/ '|u \\| ___\"|/      |_ \" _|      \\/\"_ \\/       / \" \\   U | __\")u U  /\"\\  u    \\ \\ / / U|\"|u  \r\n" + //
+                        " \\\"\\      /\"/  |  _|\"   U | | u   \\| | u       | | | | \\| |\\/| |/  |  _|\"          | |        | | | |      | |\"| |   \\|  _ \\/  \\/ _ \\/      \\ V /  \\| |/  \r\n" + //
+                        " /\\ \\ /\\ / /\\  | |___    \\| |/__   | |/__  .-,_| |_| |  | |  | |   | |___         /| |\\   .-,_| |_| |     /| |_| |\\   | |_) |  / ___ \\     U_|\"|_u  |_|   \r\n" + //
+                        "U  \\ V  V /  U |_____|    |_____|   \\____|  \\_)-\\___/   |_|  |_|   |_____|       u |_|U    \\_)-\\___/      U \\__\\_\\u   |____/  /_/   \\_\\      |_|    (_)   \r\n" + //
+                        ".-,_\\ /\\ /_,-. <<   >>    //  \\\\   _// \\\\        \\\\    <<,-,,-.    <<   >>       _// \\\\_        \\\\           \\\\//    _|| \\\\_   \\\\    >>  .-,//|(_   |||_  \r\n" + //
+                        " \\_)-'  '-(_/ (__) (__)  (_\")(\"_) (__)(__)      (__)    (./  \\.)  (__) (__)     (__) (__)      (__)         (_(__)  (__) (__) (__)  (__)  \\_) (__) (__)_) \r\n" + //
+                        "");
         System.out.println("\nGuest login:\nUsername: guest\nPassword: QUguest");
         System.out.println(
                 "\nPlease log in using your QU credentials. If you cannot log in, please use the guest login.");
@@ -62,7 +72,7 @@ public class Challenge1 {
             } else {
                 accountLoginFail++;
                 if (accountLoginFail >= 3) {
-                    System.out.println("Too many failed login attempts. Exiting for security reasons.");
+                    System.out.println("Too many failed login attempts. You are now locked out of your account due to suspicious activity.");
                     userInput.close();
                     System.exit(0);
                 }
@@ -91,7 +101,7 @@ public class Challenge1 {
             System.out.println("1. Buy");
             System.out.println("2. Cart");
             System.out.println("3. Sell");
-            System.out.println("4. Exit");
+            System.out.println("4. Logout");
 
             System.out.print("Choose an option: ");
 
@@ -146,11 +156,12 @@ public class Challenge1 {
                         } else {
                             double totalPrice = 0.0;
                             for (Item item : cart) {
-                                System.out.println(item.name + " $ " + item.price);
+                                System.out.println(item.name + " $" + item.price);
                                 totalPrice += item.price;
                             }
-                            System.out.println("\n Total Price: $ " + totalPrice);
+                            System.out.println("\n Total Price: $" + totalPrice);
                         }
+                        
                         System.out.println("\n1. Checkout");
                         System.out.println("2. Back to Main Menu");
                         System.out.print("Choose an option: ");
@@ -169,7 +180,7 @@ public class Challenge1 {
                                     }
 
                                     cart.clear();
-                                    System.out.println("Thank you for your purchase.");
+                                    System.out.println("Thank you for your purchase(s).");
                                 }
                                 break;
 
@@ -182,6 +193,7 @@ public class Challenge1 {
                         }
                     }
                     break;
+
                 case 3:
                     boolean sellMenu = true;
                     while (sellMenu) {
@@ -201,28 +213,31 @@ public class Challenge1 {
                                 } else {
                                     System.out.println("Your Items for Sale:");
                                     for (Item item : userItemsForSale) {
-                                        System.out.println(item);
+                                        System.out.println(item.getDetails());
                                     }
                                 }
                                 break;
+
                             case 2:
-                                System.out.print("Enter item name: ");
+
+                            try {
+                                System.out.print("Enter the item's name: ");
                                 String itemName = userInput.nextLine();
 
-                                System.out.print("Enter category: ");
+                                System.out.print("Enter the item's category: ");
                                 String itemCategory = userInput.nextLine();
 
-                                System.out.print("Enter price: ");
+                                System.out.print("Enter the item's price: ");
                                 double itemPrice = userInput.nextDouble();
                                 userInput.nextLine();
 
-                                System.out.print("Enter first Name: ");
+                                System.out.print("Enter your first name: ");
                                 String itemFirstName = userInput.nextLine();
 
-                                System.out.print("Enter Last Name: ");
+                                System.out.print("Enter your last name: ");
                                 String itemLastName = userInput.nextLine();
 
-                                System.out.print("Enter email: ");
+                                System.out.print("Enter your Quinnipiac email: ");
                                 String itemEmail = userInput.nextLine();
 
                                 Item newItem = new Item(itemName, itemCategory, itemFirstName, itemLastName, itemEmail,
@@ -232,6 +247,12 @@ public class Challenge1 {
 
                                 System.out.println("Item successfully added for sale!");
                                 break;
+
+                            } catch (InputMismatchException e) {
+                                System.out.println("Wrong type of input.");
+                                e.printStackTrace();
+                            }
+
                             case 3:
                                 sellMenu = false;
                                 break;
@@ -243,7 +264,7 @@ public class Challenge1 {
                     break;
 
                 case 4:
-                    System.out.println("Exiting program.");
+                    System.out.println("Thank you for using qBay! You have been successfully logged out.");
                     running = false;
                     break;
 
@@ -251,7 +272,6 @@ public class Challenge1 {
                     System.out.println("Invalid choice. Please try again.");
             }
         }
-
         userInput.close();
     }
 }
